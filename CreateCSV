@@ -1,0 +1,47 @@
+# this code will fetch all the required tables from ROLTA database and save to csv file prefixed with current date and store in your working directory
+
+setwd("E:/myR") # set your working directory
+library(RODBC)
+channel <- odbcConnect("r1", uid="readonlyu", pwd="rou", believeNRows=FALSE) # r1 is your created DSN
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.M_VILLAGE") # schema name is BRLPS_CBO_MIS
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "village.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.M_PANCHAYAT")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "panchayat.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.M_BLOCK")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "block.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.M_DISTRICT")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "district.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.MP_DISTRICT_SCHEME")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "districtmapping.csv"))
+
+dataframe <- sqlQuery(channel, "select CBO_ID, MEMBER_ID, DESIGNATION_ID from BRLPS_CBO_MIS.MP_CBO_MEMBER")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "member3.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT DISTRICT_ID , BLOCK_ID, VILLAGE_ID, CBO_ID, CBO_NAME, FORMATION_DATE, CBO_TYPE_ID , CREATED_BY , CREATED_ON, UPDATED_BY, UPDATED_ON, REGISTRATION_NUMBER, REGISTRATION_DATE, RECORD_STATUS from BRLPS_CBO_MIS.M_CBO")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "cbo.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.MP_PARENT_CBO")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "cbo_mapping.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT CBO_ID, ACC_OPENING_STATUS from BRLPS_CBO_MIS.T_CBO_APPL_MAPPING")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "ac_master.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.T_ADJUSTMENT_VOUCHER")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "avoucher.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.T_ACC_VOUCHER")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "voucher_master.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.T_VOUCHER_LEDGER")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "transactions.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.T_CBO_LOAN_REGISTER")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "loan_detail.csv"))
+
+dataframe <- sqlQuery(channel, " SELECT * FROM BRLPS_CBO_MIS.MP_LOAN_REPAYMENT")
+write.csv(dataframe, file = paste0(as.character(Sys.Date()), "repayment.csv"))
